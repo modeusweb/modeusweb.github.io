@@ -10,7 +10,6 @@ import { HeroGlyph } from "./HeroGlyph";
 export function Hero() {
   return (
     <section
-      id="top"
       aria-label="Introduction"
       className="relative overflow-hidden border-b border-line-soft"
     >

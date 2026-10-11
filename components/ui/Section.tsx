@@ -29,7 +29,7 @@ export function Section({ id, children, className, ariaLabel }: SectionProps) {
     <section
       id={id}
       aria-label={ariaLabel}
-      className={cn("scroll-mt-24 py-20 md:py-28", className)}
+      className={cn("py-20 md:py-28", className)}
     >
       {children}
     </section>

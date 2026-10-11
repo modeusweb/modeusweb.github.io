@@ -65,6 +65,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "0D59jG7JMUj7sXOpK7E1--vZ0ptpdRe0TBSvBKaUGwM",
+  },
   manifest: "/site.webmanifest",
   icons: {
     icon: [

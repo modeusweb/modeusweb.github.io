@@ -16,7 +16,7 @@ export function Footer() {
       <div className="container-page flex flex-col gap-8 py-12 md:flex-row md:items-center md:justify-between">
         <div>
           <Link
-            href="/#top"
+            href="/"
             className="font-mono text-base font-bold tracking-tight text-ink-50"
           >
             {siteConfig.wordmark}
@@ -40,7 +40,7 @@ export function Footer() {
           </a>
 
           <Link
-            href="/#top"
+            href="/"
             className="inline-flex items-center gap-1.5 text-sm text-ink-400 transition-colors hover:text-acid-300"
           >
             <ArrowUpIcon className="h-4 w-4" aria-hidden="true" />

@@ -58,7 +58,7 @@ export function Header() {
         className="container-page flex h-16 items-center justify-between gap-4"
       >
         <Link
-          href="/#top"
+          href="/"
           className="font-mono text-lg font-bold tracking-tight text-ink-50 transition-colors hover:text-acid-300"
         >
           {siteConfig.wordmark}
