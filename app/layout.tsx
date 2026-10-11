@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.wordmark}`,
   },
   description:
-    "Anton Nikonorov is a frontend developer building focused, browser-based tools for everyday developer workflows — image, SVG and encoding utilities that run entirely client-side.",
+    "Anton Nikonorov is a frontend developer building focused, browser-based tools for everyday developer workflows — image, SVG and encoding utilities that run entirely client-side. He pairs engineering discipline with modern AI assistance, keeping the craft his own.",
   applicationName: siteConfig.wordmark,
   authors: [{ name: siteConfig.name, url: siteConfig.github }],
   creator: siteConfig.name,
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "TypeScript",
+    "AI-assisted development",
   ],
   alternates: {
     canonical: absoluteUrl("/"),

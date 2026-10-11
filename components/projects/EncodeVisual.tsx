@@ -14,7 +14,7 @@ export function EncodeVisual({ className }: { className?: string }) {
       aria-hidden="true"
       preserveAspectRatio="xMidYMid meet"
     >
-      {/* Source SVG glyph */}
+      {/* Source SVG glyph — a clean "image" placeholder on a pixel grid */}
       <g transform="translate(32 54)">
         <rect
           width="76"
@@ -25,24 +25,38 @@ export function EncodeVisual({ className }: { className?: string }) {
           stroke="currentColor"
           strokeOpacity="0.28"
         />
-        <circle cx="38" cy="36" r="14" fill="none" stroke="currentColor" strokeOpacity="0.6" strokeWidth="2" />
+        {/* Sun */}
+        <circle cx="32" cy="28" r="7" fill="var(--color-acid-400)" fillOpacity="0.5" />
+        {/* Two hills sharing an even baseline at y = 74 */}
         <path
-          d="M18 74 L38 48 L58 74 Z"
-          fill="none"
+          d="M14 74 L28 52 L42 74 Z"
+          fill="currentColor"
+          fillOpacity="0.16"
           stroke="currentColor"
-          strokeOpacity="0.6"
-          strokeWidth="2"
+          strokeOpacity="0.55"
+          strokeWidth="1.5"
           strokeLinejoin="round"
         />
+        <path
+          d="M38 74 L50 58 L62 74 Z"
+          fill="currentColor"
+          fillOpacity="0.16"
+          stroke="currentColor"
+          strokeOpacity="0.55"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        {/* Even ground line */}
+        <path d="M14 74 H62" stroke="currentColor" strokeOpacity="0.55" strokeWidth="1.5" strokeLinecap="round" />
       </g>
 
       {/* Arrow */}
       <g stroke="currentColor" strokeOpacity="0.45" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M118 100 H146" />
-        <path d="M140 94 L150 100 L140 106" />
+        <path d="M120 100 H148" />
+        <path d="M142 94 L152 100 L142 106" />
       </g>
 
-      {/* Encoded string block: x 168–292, y 44–156 (centre y = 100) */}
+      {/* Encoded string block: x 168–292, y 44–156 (centre = 230,100) */}
       <g>
         <rect
           x="168"
@@ -57,22 +71,22 @@ export function EncodeVisual({ className }: { className?: string }) {
         />
         <text
           fontFamily="var(--font-mono)"
-          fontSize="9"
+          fontSize="8"
           fill="currentColor"
-          fillOpacity="0.75"
+          fillOpacity="0.8"
         >
-          {/* Even 22px line rhythm, centred around the block's vertical axis */}
-          <tspan x="182" y="70">
+          {/* Left-aligned on x=184, 18px rhythm, vertically centred on y=100 */}
+          <tspan x="184" y="73">
             data:image/svg+xml;
           </tspan>
-          <tspan x="182" y="92" fill="var(--color-acid-400)" fillOpacity="0.9">
+          <tspan x="184" y="91" fill="var(--color-acid-400)" fillOpacity="0.9">
             base64,PHN2ZyB2aWV3
           </tspan>
-          <tspan x="182" y="114">
-            Qm94PSIwIDAgNjQgNjQi
+          <tspan x="184" y="109">
+            Qm94PSIwIDAgNjQg
           </tspan>
-          <tspan x="182" y="136" fillOpacity="0.5">
-            PGRlZnMvPjxyZWN0
+          <tspan x="184" y="127" fillOpacity="0.45">
+            NjQiIHhtbG5zPSJ...
           </tspan>
         </text>
       </g>

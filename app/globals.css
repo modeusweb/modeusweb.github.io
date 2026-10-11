@@ -71,8 +71,12 @@
 /* Base document styling. */
 html {
   scroll-behavior: smooth;
-  /* Offset anchor scrolling so headings are not hidden behind the sticky header. */
-  scroll-padding-top: 6rem;
+  /*
+   * No top scroll offset: anchor jumps land section headings flush at the
+   * top of the viewport, exactly as requested. Note that the fixed header
+   * (h-16) will overlap the first ~4rem of a section when jumping to it.
+   */
+  scroll-padding-top: 0;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -83,6 +87,20 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/*
+ * On small screens the sticky header (h-16) covers the top of a section when
+ * jumping to an anchor, hiding its index label and heading. Give anchor
+ * targets a top scroll margin below the `md` breakpoint so they clear the
+ * header and read cleanly. Desktop keeps the flush jump as requested, so this
+ * is scoped to mobile only. `scrollIntoView` and native anchor scrolling both
+ * honour `scroll-margin`, so the client link and no-JS fallback stay in sync.
+ */
+@media (max-width: 767px) {
+  section[id] {
+    scroll-margin-top: 20rem;
+  }
 }
 
 ::selection {
@@ -248,8 +266,13 @@ html.motion-on [data-reveal].is-visible {
   opacity: 1;
 }
 
-/* Ensure content sits above the decorative glow layer. */
-body > *:not(.cursor-glow) {
+/*
+ * Ensure content sits above the decorative glow layer. The header is
+ * deliberately excluded so its own `position: sticky` utility is not
+ * overridden to `relative` (unlayered rules win over Tailwind utilities),
+ * which would break the sticky top navigation.
+ */
+body > *:not(.cursor-glow):not(header) {
   position: relative;
   z-index: 1;
 }

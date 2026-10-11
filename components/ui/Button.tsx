@@ -1,6 +1,7 @@
 import Link from "next/link";
-import type { ComponentProps, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ComponentProps, ReactNode } from "react";
 import { cn, externalRel, isExternalUrl } from "@/lib/utils";
+import { AnchorLink } from "@/components/ui/AnchorLink";
 
 type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
@@ -30,7 +31,21 @@ interface CommonProps {
   children: ReactNode;
 }
 
-/** Internal anchor or route link styled as a button. */
+/** True for in-page hash links such as `/#work`. */
+function isHashLink(href: string): boolean {
+  return /^\/?#/.test(href);
+}
+
+/** Extract the target id (without `#`) from a hash link like `/#work`. */
+function hashTarget(href: string): string {
+  return href.replace(/^.*#/, "");
+}
+
+/**
+ * Internal link styled as a button. In-page hash links use `AnchorLink` so
+ * repeated clicks on the current anchor still scroll reliably, while ordinary
+ * routes use Next.js `<Link>`. External links open safely in a new tab.
+ */
 export function ButtonLink({
   href,
   variant = "primary",
@@ -38,12 +53,28 @@ export function ButtonLink({
   className,
   children,
   ...rest
-}: CommonProps & { href: string } & Omit<ComponentProps<typeof Link>, "href" | "className" | "children">) {
+}: CommonProps & {
+  href: string;
+} & Omit<ComponentProps<typeof Link>, "href" | "className" | "children">) {
   const external = isExternalUrl(href);
+  const classes = cn(base, variants[variant], sizes[size], className);
+
+  if (isHashLink(href)) {
+    return (
+      <AnchorLink
+        hash={hashTarget(href)}
+        className={classes}
+        {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
+        {children}
+      </AnchorLink>
+    );
+  }
+
   return (
     <Link
       href={href}
-      className={cn(base, variants[variant], sizes[size], className)}
+      className={classes}
       {...(external ? { target: "_blank", rel: externalRel() } : {})}
       {...rest}
     >

@@ -10,6 +10,7 @@ import { HeroGlyph } from "./HeroGlyph";
 export function Hero() {
   return (
     <section
+      id="top"
       aria-label="Introduction"
       className="relative overflow-hidden border-b border-line-soft"
     >
@@ -23,7 +24,7 @@ export function Hero() {
         className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-acid-500/10 blur-3xl"
       />
 
-      <div className="container-page relative grid items-center gap-12 py-20 md:py-28 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="container-page relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
           <Reveal delay={0}>
             <p className="label-mono mb-6 flex items-center gap-3">
@@ -44,7 +45,9 @@ export function Hero() {
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-400 md:text-xl">
               I design and build focused web tools that make everyday developer
               workflows faster, simpler and more efficient — entirely in the
-              browser, with privacy and performance as first principles.
+              browser, with privacy and performance as first principles. I pair
+              engineering discipline with modern AI assistance to move quickly
+              without sacrificing craft.
             </p>
           </Reveal>
 

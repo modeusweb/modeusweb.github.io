@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { navigation, siteConfig } from "@/lib/site-config";
 import { cn, externalRel } from "@/lib/utils";
 import { GitHubIcon } from "@/components/ui/GitHubIcon";
+import { AnchorLink } from "@/components/ui/AnchorLink";
 
 /** The sticky top navigation with an accessible mobile menu. */
 export function Header() {
@@ -57,24 +57,24 @@ export function Header() {
         aria-label="Primary"
         className="container-page flex h-16 items-center justify-between gap-4"
       >
-        <Link
-          href="/"
+        <AnchorLink
+          hash="top"
           className="font-mono text-lg font-bold tracking-tight text-ink-50 transition-colors hover:text-acid-300"
         >
           {siteConfig.wordmark}
           <span className="text-acid-400">.</span>
-        </Link>
+        </AnchorLink>
 
         <div className="hidden items-center gap-8 md:flex">
           <ul className="flex items-center gap-7">
             {navigation.map((item) => (
               <li key={item.href}>
-                <Link
-                  href={`/#${item.href}`}
+                <AnchorLink
+                  hash={item.href}
                   className="text-sm font-medium text-ink-400 transition-colors hover:text-ink-50"
                 >
                   {item.label}
-                </Link>
+                </AnchorLink>
               </li>
             ))}
           </ul>
@@ -121,13 +121,13 @@ export function Header() {
             <ul className="container-page flex flex-col py-4">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={`/#${item.href}`}
+                  <AnchorLink
+                    hash={item.href}
                     onClick={() => setOpen(false)}
                     className="block border-b border-line-soft py-4 text-lg font-medium text-ink-100 transition-colors hover:text-acid-300"
                   >
                     {item.label}
-                  </Link>
+                  </AnchorLink>
                 </li>
               ))}
               <li className="pt-4">

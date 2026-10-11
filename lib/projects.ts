@@ -146,6 +146,11 @@ export const capabilities: readonly { title: string; description: string }[] = [
     description:
       "Static-first architecture, minimal JavaScript, reduced-motion support and semantic, accessible markup throughout.",
   },
+  {
+    title: "AI-assisted development",
+    description:
+      "Modern AI assistants are part of my daily workflow — for exploring options, drafting and reviewing code faster. Every decision and the final craft remain mine.",
+  },
 ] as const;
 
 /** Working principles referenced by the About section. */

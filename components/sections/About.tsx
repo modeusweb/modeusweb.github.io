@@ -12,7 +12,7 @@ export function About() {
             <SectionHeading
               index="02"
               title="How I build"
-              description="I care about tools that feel considered: clear intent, honest feedback, and an interface that stays out of the way. Most of my work turns a fiddly, repetitive task into something fast and dependable — running locally in the browser so your files never leave your device."
+              description="I care about tools that feel considered: clear intent, honest feedback, and an interface that stays out of the way. Most of my work turns a fiddly, repetitive task into something fast and dependable — running locally in the browser so your files never leave your device. I use modern AI as a working partner for exploration and review, but the architecture, the details and the final call stay mine."
             />
           </div>
 
