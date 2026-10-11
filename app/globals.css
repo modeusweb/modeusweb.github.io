@@ -90,16 +90,17 @@ body {
 }
 
 /*
- * On small screens the sticky header (h-16) covers the top of a section when
- * jumping to an anchor, hiding its index label and heading. Give anchor
+ * On small screens the sticky header (h-16 = 4rem) covers the top of a section
+ * when jumping to an anchor, hiding its index label and heading. Give anchor
  * targets a top scroll margin below the `md` breakpoint so they clear the
- * header and read cleanly. Desktop keeps the flush jump as requested, so this
- * is scoped to mobile only. `scrollIntoView` and native anchor scrolling both
- * honour `scroll-margin`, so the client link and no-JS fallback stay in sync.
+ * header with a small breathing buffer. Desktop keeps the flush jump as
+ * requested, so this is scoped to mobile only. `scrollIntoView` and native
+ * anchor scrolling both honour `scroll-margin`, so the client link and no-JS
+ * fallback stay in sync.
  */
 @media (max-width: 767px) {
   section[id] {
-    scroll-margin-top: 20rem;
+    scroll-margin-top: 5rem;
   }
 }
 

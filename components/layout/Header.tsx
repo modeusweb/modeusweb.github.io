@@ -116,7 +116,7 @@ export function Header() {
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-line-soft bg-graphite-950 md:hidden"
+            className="fixed inset-x-0 top-16 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line-soft bg-graphite-950 shadow-2xl md:hidden"
           >
             <ul className="container-page flex flex-col py-4">
               {navigation.map((item) => (
