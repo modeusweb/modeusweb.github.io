@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="MODEUS — Frontend Developer &amp; Tooling Author">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0e13" />
+      <stop offset="100%" stop-color="#07090c" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1b212a" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.6" />
+
+  <!-- accent glow -->
+  <circle cx="1020" cy="120" r="220" fill="#a9dc2e" opacity="0.10" />
+
+  <!-- wordmark -->
+  <text
+    x="80"
+    y="150"
+    font-family="'JetBrains Mono', ui-monospace, monospace"
+    font-size="34"
+    font-weight="700"
+    letter-spacing="4"
+    fill="#f6f7f8"
+  >MODEUS<tspan fill="#c2f04a">.</tspan></text>
+
+  <!-- headline -->
+  <text
+    x="80"
+    y="300"
+    font-family="'Inter', system-ui, sans-serif"
+    font-size="84"
+    font-weight="600"
+    letter-spacing="-2"
+    fill="#f6f7f8"
+  >Building tools</text>
+  <text
+    x="80"
+    y="392"
+    font-family="'Inter', system-ui, sans-serif"
+    font-size="84"
+    font-weight="600"
+    letter-spacing="-2"
+    fill="#f6f7f8"
+  >for the <tspan fill="#c2f04a">web</tspan>.</text>
+
+  <!-- role -->
+  <text
+    x="80"
+    y="470"
+    font-family="'JetBrains Mono', ui-monospace, monospace"
+    font-size="26"
+    letter-spacing="3"
+    fill="#9aa3af"
+  >FRONTEND DEVELOPER &amp; TOOLING AUTHOR</text>
+
+  <!-- underline accent -->
+  <rect x="80" y="500" width="120" height="4" fill="#c2f04a" />
+
+  <!-- url -->
+  <text
+    x="80"
+    y="560"
+    font-family="'JetBrains Mono', ui-monospace, monospace"
+    font-size="22"
+    fill="#7c8695"
+  >modeusweb.github.io</text>
+</svg>

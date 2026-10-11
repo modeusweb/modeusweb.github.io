@@ -1,0 +1,77 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissions required for the official Pages deployment flow.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; do not cancel in-progress runs.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        # actions/setup-node v7.1.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Pages
+        # actions/configure-pages v6.0.0
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Upload artifact
+        # actions/upload-pages-artifact v5.0.0
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: ./out
+
+  deploy:
+    name: Deploy
+    needs: build
+    # Only deploy for pushes to main or manual runs, not for pull requests.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        # actions/deploy-pages v5.0.1
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

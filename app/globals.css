@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (variable + monospace) for reliable, zero-layout-shift delivery. */
+@import "@fontsource-variable/inter/index.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/*
+ * Design-token system.
+ * Dark-first editorial palette: deep graphite surfaces, warm-white text,
+ * restrained cool grey, and a single electric-lime accent used sparingly.
+ */
+@theme {
+  /* Colour: backgrounds & surfaces */
+  --color-graphite-950: #07090c;
+  --color-graphite-900: #0b0e13;
+  --color-graphite-850: #10141b;
+  --color-graphite-800: #151a22;
+  --color-graphite-700: #1d232d;
+  --color-graphite-600: #2a323e;
+
+  /* Colour: text */
+  --color-ink-50: #f6f7f8;
+  --color-ink-200: #d7dbe0;
+  --color-ink-400: #9aa3af;
+  --color-ink-500: #7c8695;
+
+  /* Colour: borders */
+  --color-line-soft: #1b212a;
+  --color-line-strong: #2b333f;
+
+  /* Colour: accent (electric lime / acid chartreuse) */
+  --color-acid-300: #d7ff5e;
+  --color-acid-400: #c2f04a;
+  --color-acid-500: #a9dc2e;
+  --color-acid-600: #86b31f;
+
+  /* Colour: semantic */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  /* Typography */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  /* Fluid type scale (min -> max) */
+  --text-display: clamp(2.75rem, 8vw, 7rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+  --text-headline: clamp(2rem, 5vw, 3.5rem);
+  --text-headline--line-height: 1.02;
+  --text-headline--letter-spacing: -0.02em;
+  --text-subhead: clamp(1.25rem, 2.5vw, 1.75rem);
+  --text-subhead--line-height: 1.2;
+
+  /* Radii */
+  --radius-card: 1rem;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Content widths */
+  --spacing-content: 76rem;
+}
+
+/* Base document styling. */
+html {
+  scroll-behavior: smooth;
+  /* Offset anchor scrolling so headings are not hidden behind the sticky header. */
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-graphite-950);
+  color: var(--color-ink-50);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-acid-400);
+  color: var(--color-graphite-950);
+}
+
+/* A consistent, visible focus indicator that never relies on colour alone. */
+:focus-visible {
+  outline: 2px solid var(--color-acid-400);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/*
+ * Interactive affordance: an explicit pointer cursor for every clickable
+ * control. Browsers only default it for links, so buttons, custom controls and
+ * labelled inputs are given the same affordance for consistency. Unlayered so
+ * it reliably wins over Tailwind's Preflight defaults.
+ */
+a[href],
+button,
+summary,
+select,
+label[for],
+[role="button"],
+[role="link"],
+[role="tab"],
+[role="switch"] {
+  cursor: pointer;
+}
+
+button:disabled,
+button[aria-disabled="true"],
+a[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Reduced-motion: honour the preference globally as a safety net. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * Progressive-enhancement reveal system.
+ *
+ * Content is fully visible by default in the static HTML. Only when JavaScript
+ * is active AND the user has not requested reduced motion does a tiny client
+ * gate add `motion-on` to <html>, enabling the hidden initial state. Reveals
+ * then transition to visible via IntersectionObserver. This guarantees content
+ * is never trapped at opacity 0 if JS is delayed, fails, or is disabled.
+ */
+[data-reveal] {
+  opacity: 1;
+}
+
+html.motion-on [data-reveal]:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+html.motion-on [data-reveal] {
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    transform 0.6s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.motion-on [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-on [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* Reusable primitives layered on top of Tailwind utilities. */
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: var(--spacing-content);
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+/* Thin monospace label used across the interface. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+/* Subtle grid backdrop used behind key sections. */
+@utility bg-grid {
+  background-image: linear-gradient(
+      to right,
+      var(--color-line-soft) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--color-line-soft) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/*
+ * Pointer-following spotlight glow.
+ *
+ * A soft, fixed radial accent light that trails the cursor with lerp easing,
+ * driven entirely from the client CursorGlow component. It is purely
+ * decorative (`aria-hidden`, `pointer-events: none`), uses only transform and
+ * opacity, and is completely disabled under reduced motion and on touch/coarse
+ * pointers — so it never affects usability, layout, or accessibility.
+ */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 40rem;
+  height: 40rem;
+  margin: -20rem 0 0 -20rem; /* centre the light on the pointer */
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50vw, -50vh, 0);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-acid-400) 18%, transparent),
+    color-mix(in srgb, var(--color-acid-400) 7%, transparent) 45%,
+    transparent 78%
+  );
+  transition: opacity 0.5s var(--ease-out-expo);
+  will-change: transform, opacity;
+}
+
+/* Fade the glow in once the pointer starts moving. */
+.cursor-glow[data-active="true"] {
+  opacity: 0.9;
+}
+
+/* Subtle intensify when hovering interactive controls. */
+.cursor-glow[data-hot="true"] {
+  opacity: 1;
+}
+
+/* Ensure content sits above the decorative glow layer. */
+body > *:not(.cursor-glow) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Safety net: disable entirely for reduced motion or non-pointer devices. */
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cursor-glow {
+    display: none;
+  }
+}

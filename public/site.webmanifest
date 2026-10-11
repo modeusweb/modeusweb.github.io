@@ -1,0 +1,30 @@
+{
+  "name": "MODEUS — Anton Nikonorov",
+  "short_name": "MODEUS",
+  "description": "Focused, browser-based developer tools for image, SVG and encoding workflows — private, fast and open source.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07090c",
+  "theme_color": "#07090c",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
