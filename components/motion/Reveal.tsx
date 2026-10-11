@@ -10,6 +10,14 @@ interface RevealProps {
   className?: string;
   /** Render as a different element when needed (default: div). */
   as?: "div" | "li" | "section" | "article" | "span" | "ol";
+  /**
+   * Entrance effect once scrolled into view: `scale` (default) fades in with a
+   * gentle scale-up from the element's bottom edge, so blocks appear to grow
+   * upward as they scroll into view; `rise` opts into a classic fade with a
+   * small upward drift. Both are pure CSS and degrade to plain,
+   * always-visible content without JavaScript or under reduced motion.
+   */
+  effect?: "rise" | "scale";
 }
 
 /**
@@ -22,7 +30,13 @@ interface RevealProps {
  * scrolls into view. If JS is delayed, fails, or reduced motion is set, the
  * content simply stays visible — it is never trapped at opacity 0.
  */
-export function Reveal({ children, delay = 0, className, as = "div" }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  as = "div",
+  effect = "scale",
+}: RevealProps) {
   const ref = useRef<HTMLElement>(null);
   const Component = as as ElementType;
 
@@ -53,8 +67,20 @@ export function Reveal({ children, delay = 0, className, as = "div" }: RevealPro
     return () => observer.disconnect();
   }, []);
 
-  const style = delay
-    ? ({ "--reveal-delay": `${delay}ms` } as CSSProperties)
+  // The hidden/visible transforms and the transform origin are driven by CSS
+  // custom properties so every entrance shares one rule set and always
+  // interpolates smoothly.
+  const style = delay || effect === "scale"
+    ? ({
+        ...(delay ? { "--reveal-delay": `${delay}ms` } : {}),
+        ...(effect === "scale"
+          ? {
+              "--reveal-hidden": "scale(0.94)",
+              "--reveal-shown": "scale(1)",
+              "--reveal-origin": "bottom",
+            }
+          : {}),
+      } as CSSProperties)
     : undefined;
 
   return (

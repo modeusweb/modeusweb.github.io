@@ -49,6 +49,26 @@ test.describe("Portfolio", () => {
     }
   });
 
+  test("blocks reveal with a gentle scale-in from the bottom when scrolled into view", async ({ page }) => {
+    await page.goto("/");
+    const firstCard = page.locator("#work article").first();
+
+    // Below the fold, the reveal system holds blocks in their hidden state:
+    // faded out and gently scaled down (not a drift).
+    await expect(firstCard).toHaveCSS("opacity", "0");
+    await expect(firstCard).toHaveCSS("transform", "matrix(0.94, 0, 0, 0.94, 0, 0)");
+
+    // The same scale-from-bottom entrance applies to every block on the page.
+    const principle = page.locator("#about ol li").first();
+    await expect(principle).toHaveCSS("opacity", "0");
+    await expect(principle).toHaveCSS("transform", "matrix(0.94, 0, 0, 0.94, 0, 0)");
+
+    // Scrolling into view plays the scale-in and settles at full scale.
+    await firstCard.scrollIntoViewIfNeeded();
+    await expect(firstCard).toHaveCSS("opacity", "1");
+    await expect(firstCard).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
+  });
+
   test("anchor navigation scrolls to the work section", async ({ page }, testInfo) => {
     await page.goto("/");
 

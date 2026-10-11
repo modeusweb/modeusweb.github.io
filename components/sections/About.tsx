@@ -18,7 +18,7 @@ export function About() {
 
           <ol className="grid gap-6 sm:grid-cols-2">
             {principles.map((principle, index) => (
-              <Reveal as="li" key={principle.title} delay={index * 0.06}>
+              <Reveal as="li" key={principle.title} delay={index * 60}>
                 <div className="h-full rounded-card border border-line-soft bg-graphite-850/50 p-6">
                   <span className="label-mono text-acid-400">
                     {String(index + 1).padStart(2, "0")}

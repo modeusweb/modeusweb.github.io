@@ -21,7 +21,7 @@ export function Capabilities() {
               <Reveal
                 as="li"
                 key={capability.title}
-                delay={index * 0.05}
+                delay={index * 50}
                 className={cn(
                   "bg-graphite-900",
                   // Stretch the final card across the full row so the grid
