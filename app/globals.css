@@ -268,12 +268,45 @@ html.motion-on [data-reveal].is-visible {
 }
 
 /*
- * Ensure content sits above the decorative glow layer. The header is
- * deliberately excluded so its own `position: sticky` utility is not
- * overridden to `relative` (unlayered rules win over Tailwind utilities),
- * which would break the sticky top navigation.
+ * Interactive node-network backdrop.
+ *
+ * A fixed, full-viewport canvas that sits behind all content (z-index 0) and
+ * never intercepts input (`pointer-events: none`). A radial mask keeps the
+ * network subtle toward the edges so text always stays legible; it is also
+ * excluded from the content layering rule below so it is not lifted above the
+ * page. Driven by the NeuralBackdrop component; blank without JS, and absent
+ * under reduced motion / coarse pointers.
  */
-body > *:not(.cursor-glow):not(header) {
+.neural-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 40%,
+    black 0%,
+    transparent 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 40%,
+    black 0%,
+    transparent 85%
+  );
+}
+
+.neural-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Ensure content sits above the decorative glow layer. The header and the
+ * neural backdrop are deliberately excluded so their own positioning
+ * (`sticky` / `fixed`) is not overridden to `relative` (unlayered rules win
+ * over Tailwind utilities), which would break the sticky top navigation.
+ */
+body > *:not(.cursor-glow):not(header):not(.neural-canvas) {
   position: relative;
   z-index: 1;
 }

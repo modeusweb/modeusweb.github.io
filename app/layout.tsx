@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { absoluteUrl, siteConfig } from "@/lib/site-config";
 import { MotionGate } from "@/components/motion/MotionGate";
+import { NeuralBackdrop } from "@/components/motion/NeuralBackdrop";
 import { CursorGlow } from "@/components/motion/CursorGlow";
 import "./globals.css";
 
@@ -137,6 +138,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <MotionGate />
+        <NeuralBackdrop />
         <CursorGlow />
         {children}
       </body>
