@@ -69,6 +69,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "0D59jG7JMUj7sXOpK7E1--vZ0ptpdRe0TBSvBKaUGwM",
+    yandex: "56721fa25dcb1707",
   },
   manifest: "/site.webmanifest",
   icons: {
