@@ -1,7 +1,6 @@
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { Container, Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
-import { Ambient } from "@/components/motion/Ambient";
 import { mailtoHref, siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -24,9 +23,6 @@ export function Contact() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_at_bottom_right,black,transparent_75%)]"
             />
-
-            {/* Warm light drifting up from the lower edge, behind the copy */}
-            <Ambient variant="bottom-left" speed={38} className="opacity-70" />
 
             <div className="relative max-w-2xl">
               <p className="label-mono mb-5 flex items-center gap-3">

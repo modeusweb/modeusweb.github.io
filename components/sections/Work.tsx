@@ -2,19 +2,12 @@
 
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { Container, Section, SectionHeading } from "@/components/ui/Section";
-import { Ambient } from "@/components/motion/Ambient";
 import { projects } from "@/lib/projects";
 
 /** The "Selected work" section: a responsive grid of project cards. */
 export function Work() {
   return (
-    <Section
-      id="work"
-      ariaLabel="Selected work"
-      className="relative overflow-hidden"
-    >
-      <Ambient variant="center-left" speed={-46} className="opacity-50" />
-
+    <Section id="work" ariaLabel="Selected work">
       <Container>
         <SectionHeading
           index="01"
@@ -22,7 +15,7 @@ export function Work() {
           description="A collection of browser-based developer tools. Each one runs entirely client-side — no uploads, no servers, no tracking."
         />
 
-        <div className="relative mt-14 grid gap-6 md:grid-cols-2">
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
