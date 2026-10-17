@@ -101,7 +101,26 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    // `suppressHydrationWarning` is required because the inline script below
+    // adds the `motion-on` class to <html> before React hydrates; the DOM wins.
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        {/*
+          Enable the CSS reveal system before the first paint.
+          A Client Component `useEffect` would run *after* paint, so every
+          [data-reveal] block would render visible, then jump to its hidden
+          state, then animate in — a visible flash. This runs synchronously
+          during HTML parsing instead. `MotionGate` re-applies the class in dev,
+          where React's Strict Mode remount resets <html> attributes.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)' +
+              '{document.documentElement.classList.add("motion-on")}}catch(e){}',
+          }}
+        />
+      </head>
       <body>
         <script
           type="application/ld+json"
@@ -129,12 +148,15 @@ export default function RootLayout({
                   worksFor: { "@id": absoluteUrl("/") },
                 },
               ],
-            }),
+              // Escape `<` so a value coming from site-config can never close
+              // the <script> element early (XSS). Recommended by the Next.js
+              // JSON-LD guide.
+            }).replace(/</g, "\\u003c"),
           }}
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-full focus:bg-acid-400 focus:px-5 focus:py-3 focus:font-medium focus:text-graphite-950"
+          className="skip-link sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-full focus:bg-acid-400 focus:px-5 focus:py-3 focus:font-medium focus:text-graphite-950"
         >
           Skip to content
         </a>

@@ -48,12 +48,6 @@ export function validateProjects(list: readonly Project[]): string[] {
     if (project.highlights.length === 0) {
       problems.push(`Project ${project.id} lists no highlights`);
     }
-    if (project.image && !project.imageAlt) {
-      problems.push(`Project ${project.id} has an image without alt text`);
-    }
-    if (!project.image && project.imageAlt) {
-      problems.push(`Project ${project.id} has alt text without an image`);
-    }
   }
 
   return problems;

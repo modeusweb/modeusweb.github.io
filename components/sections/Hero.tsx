@@ -27,9 +27,15 @@ export function Hero() {
       <div className="container-page relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
           <Reveal delay={0}>
-            <p className="label-mono mb-6 flex items-center gap-3">
+            <p className="label-mono mb-6 flex flex-wrap items-center gap-3">
               <span className="h-1.5 w-1.5 rounded-full bg-acid-400" aria-hidden="true" />
               {siteConfig.role}
+              {/* Only advertised when `availableForWork` is truthful. */}
+              {siteConfig.availableForWork ? (
+                <span className="rounded-full border border-acid-500/40 bg-acid-500/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-acid-300">
+                  {siteConfig.availabilityLabel}
+                </span>
+              ) : null}
             </p>
           </Reveal>
 

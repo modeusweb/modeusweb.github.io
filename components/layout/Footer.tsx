@@ -27,7 +27,20 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-6">
+          {siteConfig.socials.map((social) => (
+            <a
+              key={social.href}
+              href={social.href}
+              target="_blank"
+              rel={externalRel()}
+              aria-label={`${social.description} (opens in a new tab)`}
+              className="text-sm text-ink-400 transition-colors hover:text-acid-300"
+            >
+              {social.label}
+            </a>
+          ))}
+
           <a
             href={siteConfig.github}
             target="_blank"

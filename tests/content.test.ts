@@ -89,7 +89,6 @@ describe("validateProjects", () => {
     technologies: ["React"],
     demoUrl: "https://modeusweb.github.io/sample/",
     repositoryUrl: "https://github.com/modeusweb/sample",
-    featured: true,
     visualVariant: "raster",
     highlights: ["works"],
   };
@@ -99,11 +98,6 @@ describe("validateProjects", () => {
       { ...base, technologies: [] },
     ]);
     expect(problems.join(" ")).toMatch(/technologies/);
-  });
-
-  it("flags an image without alt text", () => {
-    const problems = validateProjects([{ ...base, image: "/images/x.png" }]);
-    expect(problems.join(" ")).toMatch(/alt text/);
   });
 
   it("flags duplicate ids", () => {

@@ -27,14 +27,8 @@ export interface Project {
   technologies: string[];
   demoUrl: string;
   repositoryUrl: string;
-  /** Whether the project appears as a featured highlight. */
-  featured: boolean;
   /** Which generated visual to render for the card preview. */
   visualVariant: VisualVariant;
-  /** Optional real screenshot path under `public/` when available. */
-  image?: string;
-  /** Alt text for `image`, required whenever `image` is present. */
-  imageAlt?: string;
   /** A few factual capability highlights drawn from the project's features. */
   highlights: string[];
 }
@@ -50,7 +44,6 @@ export const projects: readonly Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Web Workers"],
     demoUrl: "https://modeusweb.github.io/webp-neo/",
     repositoryUrl: "https://github.com/modeusweb/webp-neo",
-    featured: true,
     visualVariant: "raster",
     highlights: [
       "Six input formats to WebP",
@@ -68,7 +61,6 @@ export const projects: readonly Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "SVGO"],
     demoUrl: "https://modeusweb.github.io/svgpress/",
     repositoryUrl: "https://github.com/modeusweb/svgpress",
-    featured: true,
     visualVariant: "vector",
     highlights: [
       "Presets and per-plugin control",
@@ -86,7 +78,6 @@ export const projects: readonly Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://modeusweb.github.io/sprit-z/",
     repositoryUrl: "https://github.com/modeusweb/sprit-z",
-    featured: true,
     visualVariant: "sprite",
     highlights: [
       "Automatic ID conflict resolution",
@@ -104,7 +95,6 @@ export const projects: readonly Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://modeusweb.github.io/svg-to-base64/",
     repositoryUrl: "https://github.com/modeusweb/svg-to-base64",
-    featured: true,
     visualVariant: "encode",
     highlights: [
       "Base64, CSS and HTML output",

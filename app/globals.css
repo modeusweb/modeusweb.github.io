@@ -309,12 +309,21 @@ html.motion-on [data-reveal].is-visible {
 }
 
 /*
- * Ensure content sits above the decorative glow layer. The header and the
- * neural backdrop are deliberately excluded so their own positioning
- * (`sticky` / `fixed`) is not overridden to `relative` (unlayered rules win
- * over Tailwind utilities), which would break the sticky top navigation.
+ * Ensure content sits above the decorative glow layer. This rule is UNLAYERED,
+ * which means it beats every Tailwind utility (they live in `@layer
+ * utilities`) regardless of specificity. So anything whose position must be
+ * controlled by a utility has to be excluded here:
+ *
+ * - `header` / `.neural-canvas` — `sticky` / `fixed` positioning, otherwise the
+ *   top navigation would stop sticking.
+ * - `.skip-link` — `.sr-only` sets `position: absolute`, which blockifies the
+ *   inline <a> so its 1x1 size applies. Forcing `position: relative` here kept
+ *   it inline and *in flow*, so the text rendered at its natural ~114x20px and
+ *   pushed the whole page down by 24px, while every `focus:*` positioning
+ *   utility (fixed / left-4 / top-4 / z-100) was silently overridden.
+ * - `.cursor-glow` — already `position: fixed`.
  */
-body > *:not(.cursor-glow):not(header):not(.neural-canvas) {
+body > :not(.cursor-glow, header, .neural-canvas, .skip-link) {
   position: relative;
   z-index: 1;
 }

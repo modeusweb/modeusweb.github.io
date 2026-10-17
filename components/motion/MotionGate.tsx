@@ -1,17 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 /**
- * A tiny client-side gate that enables the CSS reveal system.
+ * Development-safety net for the pre-paint motion gate.
  *
- * On mount — only when JavaScript is running and the user has NOT requested
- * reduced motion — it adds `motion-on` to <html>. Until then, all `[data-reveal]`
- * content is fully visible in the static HTML, so nothing is ever hidden if JS
- * is delayed, fails, or is disabled, and reduced-motion users see no animation.
+ * The authoritative gate is an inline script in `app/layout.tsx` that adds
+ * `motion-on` to <html> while the browser parses the HTML — before the first
+ * paint, so reveal blocks never flash visible first. Doing it in a
+ * `useEffect` would be too late and visibly jump the layout.
+ *
+ * This component only re-applies that same class in `useLayoutEffect`. In
+ * production it is a no-op (the class is already there). In development,
+ * React's Strict Mode remount resets <html> to the attributes it manages from
+ * JSX, which drops `motion-on`; re-adding it before paint keeps dev identical
+ * to production. See `next/dist/docs/01-app/02-guides/
+ * preventing-flash-before-hydration.md`.
  */
 export function MotionGate() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reduce =
       typeof window !== "undefined" &&
       window.matchMedia &&
