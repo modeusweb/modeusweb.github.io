@@ -15,7 +15,7 @@ test.describe("Portfolio", () => {
 
     await page.goto("/");
 
-    await expect(page).toHaveTitle(/Anton Nikonorov|MODEUS/i);
+    await expect(page).toHaveTitle(/Anton Nikonorov|MODEUSWEB/i);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     for (const id of ["top", "work", "about", "capabilities", "github", "contact"]) {
@@ -84,5 +84,39 @@ test.describe("Portfolio", () => {
     // The work heading should be within the viewport after scrolling.
     const heading = page.getByRole("heading", { name: /selected work/i });
     await expect(heading).toBeInViewport();
+  });
+
+  test("back-to-top anchors land on a real 0, not the first section offset", async ({
+    page,
+  }) => {
+    // The first section begins below the sticky header, so aligning *it* to the
+    // top of the viewport would stop short of the document start. Both
+    // back-to-top controls must reach a true zero instead.
+    await page.goto("/#contact");
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(1000);
+
+    await page.locator('nav a[href="#top"]').first().click();
+    await expect(page).toHaveURL(/#top$/);
+
+    // Polled rather than a fixed wait: the scroll is smooth.
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 })
+      .toBe(0);
+
+    // And the hero must sit flush under the header — no gap, no overlap.
+    const alignment = await page.evaluate(() => {
+      const hero = document.getElementById("top").getBoundingClientRect();
+      const header = document.querySelector("header").getBoundingClientRect();
+      return Math.round(hero.top - header.bottom);
+    });
+    expect(Math.abs(alignment)).toBeLessThanOrEqual(1);
+
+    // Footer control behaves the same way. Note the footer also renders a
+    // wordmark link to #top, so target the control by its accessible name.
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.getByRole("link", { name: "Back to top" }).click();
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 })
+      .toBe(0);
   });
 });

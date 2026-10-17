@@ -7,6 +7,7 @@ import { navigation, siteConfig } from "@/lib/site-config";
 import { cn, externalRel } from "@/lib/utils";
 import { GitHubIcon } from "@/components/ui/GitHubIcon";
 import { AnchorLink } from "@/components/ui/AnchorLink";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 /** The sticky top navigation with an accessible mobile menu. */
 export function Header() {
@@ -107,6 +108,8 @@ export function Header() {
           )}
         </button>
       </nav>
+
+      <ScrollProgress />
 
       <AnimatePresence initial={false}>
         {open ? (

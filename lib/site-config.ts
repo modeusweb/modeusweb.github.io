@@ -23,7 +23,7 @@ export const siteConfig = {
   /** The person's name. */
   name: "Anton Nikonorov",
   /** The typographic wordmark shown in the navigation and footer. */
-  wordmark: "MODEUS",
+  wordmark: "MODEUSWEB",
   /** Short professional descriptor used in the hero eyebrow and metadata. */
   role: "Frontend Developer & Tooling Author",
   /** Canonical production URL — must stay the GitHub Pages root. */

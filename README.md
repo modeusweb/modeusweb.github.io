@@ -1,4 +1,4 @@
-# MODEUS — Personal Portfolio
+# MODEUSWEB — Personal Portfolio
 
 A dark, editorial personal portfolio and developer-tools showcase for **Anton
 Nikonorov** (`modeusweb`). It presents four browser-based developer tools

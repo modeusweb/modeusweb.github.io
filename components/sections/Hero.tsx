@@ -4,6 +4,8 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { ButtonLink, ButtonExternal } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 import { Reveal } from "@/components/motion/Reveal";
+import { Parallax } from "@/components/motion/Parallax";
+import { Ambient } from "@/components/motion/Ambient";
 import { HeroGlyph } from "./HeroGlyph";
 
 /** The editorial hero with a timed entrance and an original decorative glyph. */
@@ -23,6 +25,9 @@ export function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-acid-500/10 blur-3xl"
       />
+
+      {/* Ambient light that drifts against the page, adding depth to the hero */}
+      <Ambient variant="top-right" speed={54} className="-right-52 -top-44 opacity-60" />
 
       <div className="container-page relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
@@ -79,10 +84,10 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* Original decorative visual */}
-        <div className="relative hidden lg:block">
+        {/* Original decorative visual — parallaxes slower than the page */}
+        <Parallax speed={26} className="relative hidden lg:block">
           <HeroGlyph />
-        </div>
+        </Parallax>
       </div>
     </section>
   );

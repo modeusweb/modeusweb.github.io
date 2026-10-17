@@ -63,6 +63,10 @@
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  /* Settle curve: fast departure, a whisper of overshoot, soft landing. Used
+     when something returns to rest so the return reads as weight rather than a
+     snap. */
+  --ease-settle: cubic-bezier(0.32, 1.16, 0.42, 1);
 
   /* Content widths */
   --spacing-content: 76rem;
@@ -331,6 +335,160 @@ body > :not(.cursor-glow, header, .neural-canvas, .skip-link) {
 /* Safety net: disable entirely for reduced motion or non-pointer devices. */
 @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
   .cursor-glow {
+    display: none;
+  }
+}
+
+/*
+ * Hover tilt on project cards.
+ *
+ * Promoting the card to its own layer is scoped to the only environments where
+ * the tilt actually runs — a fine pointer with motion allowed. Touch devices and
+ * reduced-motion users never transform the card, so they should not pay for a
+ * permanent compositor layer they never use.
+ */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .project-card {
+    will-change: transform;
+  }
+}
+
+/*
+ * Project card hover.
+ *
+ * While the pointer is on the card the transform is driven frame by frame by JS,
+ * so the transition is switched off — easing it would lag behind the cursor and
+ * read as sluggish rather than responsive. The moment the pointer leaves, the
+ * attribute is dropped and the long eased transition takes over, so the card
+ * settles back down instead of snapping.
+ *
+ * The elevation and accent ring only exist on fine pointers: on touch there is no
+ * hover state, so they would only add paint cost.
+ */
+.project-card {
+  transition:
+    transform 820ms var(--ease-settle),
+    border-color 420ms var(--ease-out-expo),
+    box-shadow 700ms var(--ease-settle),
+    background-color 420ms var(--ease-out-expo);
+}
+
+.project-card[data-tilting="true"] {
+  transition:
+    border-color 420ms var(--ease-out-expo),
+    box-shadow 700ms var(--ease-settle),
+    background-color 420ms var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover {
+    box-shadow:
+      0 28px 56px -32px rgba(0, 0, 0, 0.9),
+      0 8px 20px -16px rgba(0, 0, 0, 0.7),
+      0 0 40px -22px color-mix(in srgb, var(--color-acid-400) 22%, transparent);
+  }
+}
+
+/*
+ * Pointer spotlight over the card preview.
+ *
+ * Positioned off the preview's top-left corner by exactly half its own size, so
+ * a plain translate lands the gradient's centre on the pointer. Transform only,
+ * which keeps it on the compositor instead of repainting the gradient on every
+ * pointer move. It is clipped by the preview's own overflow, and it never
+ * overlaps body copy, so text contrast is untouched.
+ */
+.project-card-spotlight {
+  position: absolute;
+  left: -20rem;
+  top: -20rem;
+  width: 40rem;
+  height: 40rem;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-100rem, -100rem, 0);
+  background: radial-gradient(
+    circle closest-side,
+    color-mix(in srgb, var(--color-acid-400) 26%, transparent),
+    color-mix(in srgb, var(--color-acid-300) 9%, transparent) 38%,
+    transparent 68%
+  );
+  transition: opacity 500ms var(--ease-out-expo);
+}
+
+.group:hover .project-card-spotlight {
+  opacity: 1;
+}
+
+/*
+ * Sheen sweep across the preview strip.
+ *
+ * A single diagonal highlight that crosses the artwork once per hover, then rests
+ * off-screen. Like the spotlight it is clipped to the preview, so it never
+ * passes over body copy, and it animates `transform` alone.
+ */
+.project-card-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-115%, 0, 0);
+  background: linear-gradient(
+    104deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.05) 48%,
+    rgba(255, 255, 255, 0.09) 52%,
+    transparent 62%
+  );
+  transition:
+    transform 900ms var(--ease-settle),
+    opacity 520ms var(--ease-settle);
+}
+
+.group:hover .project-card-sheen {
+  opacity: 1;
+  transform: translate3d(115%, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-spotlight,
+  .project-card-sheen {
+    display: none;
+  }
+}
+
+/*
+ * Reading-progress rail, pinned to the bottom edge of the sticky header.
+ *
+ * The bar is scaled horizontally from the transform origin on the left; the
+ * track is a fixed-height container so nothing about the header's layout
+ * depends on how far the page is scrolled. Driven by ScrollProgress via the
+ * shared scroll ticker, and left collapsed at zero width without JavaScript.
+ */
+.scroll-progress-track {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  pointer-events: none;
+}
+
+.scroll-progress-rail {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    var(--color-acid-600) 0%,
+    var(--color-acid-400) 55%,
+    var(--color-acid-300) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress-track {
     display: none;
   }
 }
